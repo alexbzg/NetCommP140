@@ -16,14 +16,16 @@ namespace Jerome
         public byte[] buffer = new byte[BufferSize];
         // Received data string.
         public StringBuilder sb = new StringBuilder();
+        //received data callback
+        public Func<string> reCb;
     }
 
     public class JeromeController
     {
         class CmdEntry
         {
-            string cmd;
-            Func<string> cb;
+            public string cmd;
+            public Func<string> cb;
 
             public CmdEntry(string cmdE, Func<string> cbE)
             {
@@ -84,7 +86,7 @@ namespace Jerome
                     currentCmd = cmdQuee[0];
                     cmdQuee.RemoveAt(0);
                 }
-                
+                send("$KE," + currentCmd.cmd + "\r\n");
             }
         }
 
@@ -104,7 +106,7 @@ namespace Jerome
 
                     // Connect to the remote endpoint.
                     IAsyncResult ar = socket.BeginConnect(remoteEP,
-                        new AsyncCallback(ConnectCallback), null);
+                        new AsyncCallback(connectCallback), null);
                     ar.AsyncWaitHandle.WaitOne(1000, true);
 
                     if (socket != null && !socket.Connected)
@@ -124,7 +126,7 @@ namespace Jerome
             }
         }
 
-        private void ConnectCallback(IAsyncResult ar)
+        private void connectCallback(IAsyncResult ar)
         {
             try
             {
@@ -145,16 +147,17 @@ namespace Jerome
             }
         }
 
-        private void Receive()
+        private void receive( Func<string> reCb)
         {
             try
             {
                 // Create the state object.
                 StateObject state = new StateObject();
+                state.reCb = reCb;
 
                 // Begin receiving the data from the remote device.
                 socket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-                    new AsyncCallback(ReceiveCallback), state);
+                    new AsyncCallback(receiveCallback), state);
             }
             catch (Exception e)
             {
@@ -162,7 +165,7 @@ namespace Jerome
             }
         }
 
-        private void ReceiveCallback(IAsyncResult ar)
+        private void receiveCallback(IAsyncResult ar)
         {
             try
             {
@@ -180,7 +183,7 @@ namespace Jerome
 
                     // Get the rest of the data.
                     socket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-                        new AsyncCallback(ReceiveCallback), state);
+                        new AsyncCallback(receiveCallback), state);
                 }
                 else
                 {
@@ -199,17 +202,17 @@ namespace Jerome
             }
         }
 
-        private void Send(String data)
+        private void send(String data)
         {
             // Convert the string data to byte data using ASCII encoding.
             byte[] byteData = Encoding.ASCII.GetBytes(data);
 
             // Begin sending the data to the remote device.
             socket.BeginSend(byteData, 0, byteData.Length, 0,
-                new AsyncCallback(SendCallback), null);
+                new AsyncCallback(sendCallback), null);
         }
 
-        private void SendCallback(IAsyncResult ar)
+        private void sendCallback(IAsyncResult ar)
         {
             try
             {
@@ -220,6 +223,7 @@ namespace Jerome
 
                 // Signal that all bytes have been sent.
                 sendDone.Set();
+
             }
             catch (Exception e)
             {
