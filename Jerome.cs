@@ -187,10 +187,7 @@ namespace Jerome
                     // There might be more data, so store the data received so far.
                     state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
 
-                    if (state.sb.Length > 1)
-                    {
-                        System.Diagnostics.Debug.WriteLine("received: " + state.sb.ToString());
-                    }
+                    System.Diagnostics.Debug.WriteLine("received: " + state.sb.ToString());
 
                     // Get the rest of the data.
                     socket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
