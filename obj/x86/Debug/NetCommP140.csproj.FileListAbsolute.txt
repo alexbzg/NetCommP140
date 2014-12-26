@@ -14,3 +14,11 @@ F:\Works\NetCommP140\NetCommP140\obj\x86\Debug\NetCommP140.Properties.Resources.
 F:\Works\NetCommP140\NetCommP140\obj\x86\Debug\NetCommP140.csproj.GenerateResource.Cache
 F:\Works\NetCommP140\obj\x86\Debug\NetCommP140.exe
 F:\Works\NetCommP140\obj\x86\Debug\NetCommP140.pdb
+C:\works\NetCommP140\obj\x86\Debug\NetCommP140.exe
+C:\works\NetCommP140\obj\x86\Debug\NetCommP140.pdb
+C:\works\NetCommP140\bin\Debug\NetCommP140.exe
+C:\works\NetCommP140\bin\Debug\NetCommP140.pdb
+C:\works\NetCommP140\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\works\NetCommP140\obj\x86\Debug\NetCommP140.Properties.Resources.resources
+C:\works\NetCommP140\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\works\NetCommP140\obj\x86\Debug\GenerateResource.write.1.tlog

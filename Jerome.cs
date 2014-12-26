@@ -114,6 +114,11 @@ namespace Jerome
                         socket.Close();
                         System.Diagnostics.Debug.WriteLine("Timeout");
                     }
+                    else
+                    {
+                        receive();
+                        newCmd("PSW,SET,Jerome", null);
+                    }
                 }
                 if (socket == null || !socket.Connected)
                     System.Diagnostics.Debug.WriteLine("Retries limit reached. Connect failed");
@@ -134,7 +139,7 @@ namespace Jerome
                 {
                     socket.EndConnect(ar);
 
-                    System.Diagnostics.Debug.WriteLine("Socket connected to {0}",
+                    System.Diagnostics.Debug.WriteLine("Socket connected to " +
                         socket.RemoteEndPoint.ToString());
 
                     // Signal that the connection has been made.
@@ -147,13 +152,13 @@ namespace Jerome
             }
         }
 
-        private void receive( Func<string> reCb)
+        private void receive()
         {
             try
             {
+                //System.Diagnostics.Debug.WriteLine("receiving");
                 // Create the state object.
                 StateObject state = new StateObject();
-                state.reCb = reCb;
 
                 // Begin receiving the data from the remote device.
                 socket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
@@ -169,6 +174,7 @@ namespace Jerome
         {
             try
             {
+                //System.Diagnostics.Debug.WriteLine("receive callback");
                 // Retrieve the state object and the client socket 
                 // from the asynchronous state object.
                 StateObject state = (StateObject)ar.AsyncState;
@@ -181,19 +187,21 @@ namespace Jerome
                     // There might be more data, so store the data received so far.
                     state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
 
+                    if (state.sb.Length > 1)
+                    {
+                        System.Diagnostics.Debug.WriteLine("received: " + state.sb.ToString());
+                    }
+
                     // Get the rest of the data.
                     socket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                         new AsyncCallback(receiveCallback), state);
                 }
                 else
                 {
-                    // All the data has arrived; put it in response.
-                    if (state.sb.Length > 1)
-                    {
-                        string response = state.sb.ToString();
-                    }
                     // Signal that all bytes have been received.
                     receiveDone.Set();
+                    receive();
+                    // All the data has arrived; put it in response.
                 }
             }
             catch (Exception e)
@@ -204,6 +212,7 @@ namespace Jerome
 
         private void send(String data)
         {
+            System.Diagnostics.Debug.WriteLine("sending: " + data);
             // Convert the string data to byte data using ASCII encoding.
             byte[] byteData = Encoding.ASCII.GetBytes(data);
 
