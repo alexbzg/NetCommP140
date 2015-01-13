@@ -15,8 +15,11 @@ namespace NetCommP140
         public FMain()
         {
             InitializeComponent();
-            JeromeController jc = JeromeController.create("192.168.0.101", 2424);
-            jc.connect();
+        }
+
+        private void FMain_Load(object sender, EventArgs e)
+        {
+            Width = 50;
         }
     }
 }

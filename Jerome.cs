@@ -5,6 +5,7 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace Jerome
 {
@@ -25,15 +26,17 @@ namespace Jerome
         class CmdEntry
         {
             public string cmd;
-            public Func<string> cb;
+            public Action<string> cb;
 
-            public CmdEntry(string cmdE, Func<string> cbE)
+            public CmdEntry(string cmdE, Action<string> cbE)
             {
                 cmd = cmdE;
                 cb = cbE;
             }
         }
 
+        private static int timeout = 1000;
+        private static Regex rEVT = new Regex(@"#EVT,IN,\d+,(\d+),(\d)"); 
         
         // ManualResetEvent instances signal completion.
         private ManualResetEvent connectDone =
@@ -44,20 +47,30 @@ namespace Jerome
             new ManualResetEvent(false);
 
         private IPEndPoint remoteEP;
+        private string password;
         private volatile Socket socket;
 
         private volatile CmdEntry currentCmd = null;
         private Object cmdQueeLock = new Object();
         private List<CmdEntry> cmdQuee = new List<CmdEntry>();
+        private Timer replyTimer;
 
+        public bool connected
+        {
+            get
+            {
+                return socket != null && socket.Connected;
+            }
+        }
 
-        public static JeromeController create(string host, int port)
+        public static JeromeController create(string host, int port, string password)
         {
             IPAddress hostIP;
             if (IPAddress.TryParse(host, out hostIP))
             {
                 JeromeController jc = new JeromeController();
                 jc.remoteEP = new IPEndPoint(hostIP, port);
+                jc.password = password;
                 return jc;
             }
             else
@@ -66,7 +79,7 @@ namespace Jerome
             }
         }
 
-        private void newCmd(string cmd, Func<string> cb)
+        private void newCmd(string cmd, Action<string> cb)
         {
             CmdEntry ce = new CmdEntry( cmd, cb );
             lock (cmdQueeLock)
@@ -107,7 +120,7 @@ namespace Jerome
                     // Connect to the remote endpoint.
                     IAsyncResult ar = socket.BeginConnect(remoteEP,
                         new AsyncCallback(connectCallback), null);
-                    ar.AsyncWaitHandle.WaitOne(1000, true);
+                    ar.AsyncWaitHandle.WaitOne(timeout, true);
 
                     if (socket != null && !socket.Connected)
                     {
@@ -117,7 +130,7 @@ namespace Jerome
                     else
                     {
                         receive();
-                        newCmd("PSW,SET,Jerome", null);
+                        newCmd("PSW,SET," + password, null);
                     }
                 }
                 if (socket == null || !socket.Connected)
@@ -129,6 +142,12 @@ namespace Jerome
                 System.Diagnostics.Debug.WriteLine(e.ToString());
                 return false;
             }
+        }
+
+        public void disconnect()
+        {
+            if (socket != null && socket.Connected)
+                socket.Close();
         }
 
         private void connectCallback(IAsyncResult ar)
@@ -189,22 +208,61 @@ namespace Jerome
 
                     System.Diagnostics.Debug.WriteLine("received: " + state.sb.ToString());
 
-                    // Get the rest of the data.
-                    socket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-                        new AsyncCallback(receiveCallback), state);
+                    string reply = state.sb.ToString();
+
+                    if ( reply.Contains( '\n' ) )
+                        processReply( reply );
+                    else
+                        socket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
+                            new AsyncCallback(receiveCallback), state);
                 }
-                else
-                {
-                    // Signal that all bytes have been received.
-                    receiveDone.Set();
-                    receive();
-                    // All the data has arrived; put it in response.
-                }
+                receiveDone.Set();
+                receive();
             }
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.ToString());
             }
+        }
+
+        private void processReply(string reply)
+        {
+            //System.Diagnostics.Debug.WriteLine(reply);
+            Match match = rEVT.Match(reply);
+            if (match.Success)
+            {
+                string line = match.Groups[1].Value;
+                int lineState = match.Groups[2].Value == "0" ? 1 : 0;
+            }
+            else
+            {
+                replyTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                if (currentCmd.cb != null)
+                {
+                    currentCmd.cb.Invoke(reply);
+                }
+                lock (cmdQuee)
+                {
+                    currentCmd = null;
+                }
+                processQuee();
+
+            }            
+        }
+
+        public void setLineMode(int line, int mode)
+        {
+            newCmd("IO,SET," + line.ToString() + "," + mode.ToString(), null);
+        }
+
+        public void switchLine(int line, int state)
+        {
+            newCmd("WR," + line.ToString() + "," + state.ToString(), null);
+        }
+
+        private void replyTimeout()
+        {
+            System.Diagnostics.Debug.WriteLine( "Reply timeout" );
         }
 
         private void send(String data)
@@ -229,7 +287,8 @@ namespace Jerome
 
                 // Signal that all bytes have been sent.
                 sendDone.Set();
-
+                replyTimer = new Timer(obj => { replyTimeout(); }, null, timeout, Timeout.Infinite);
+                
             }
             catch (Exception e)
             {

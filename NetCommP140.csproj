@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FConnectionsList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FConnectionsList.Designer.cs">
+      <DependentUpon>FConnectionsList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Jerome.cs" />
     <Compile Include="FMain.cs">
       <SubType>Form</SubType>
@@ -53,8 +59,15 @@
     <Compile Include="FMain.Designer.cs">
       <DependentUpon>FMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="P140Connection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FConnectionsList.resx">
+      <DependentUpon>FConnectionsList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FMain.resx">
+      <DependentUpon>FMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
