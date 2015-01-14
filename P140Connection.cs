@@ -46,15 +46,18 @@ namespace NetCommP140
 
         public void buttonPressed(int no)
         {
-            controller.switchLine(relay12Line, 1);
-            Thread.Sleep(500);
-            controller.switchLine(relay27Line, 1);
-            Thread.Sleep(500);
-            controller.switchLine(buttonLines[no], 1);
-            Thread.Sleep(30000);
-            controller.switchLine(buttonLines[no], 0);
-            controller.switchLine(relay12Line, 0);
-            controller.switchLine(relay27Line, 0);
+            if (controller != null && controller.connected)
+            {
+                controller.switchLine(relay12Line, 1);
+                Thread.Sleep(500);
+                controller.switchLine(relay27Line, 1);
+                Thread.Sleep(500);
+                controller.switchLine(buttonLines[no], 1);
+                Thread.Sleep(30000);
+                controller.switchLine(buttonLines[no], 0);
+                controller.switchLine(relay12Line, 0);
+                controller.switchLine(relay27Line, 0);
+            }
         }
 
         public bool connect()

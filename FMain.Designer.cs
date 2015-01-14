@@ -47,7 +47,7 @@
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStrip.Size = new System.Drawing.Size(45, 458);
+            this.toolStrip.Size = new System.Drawing.Size(95, 458);
             this.toolStrip.TabIndex = 0;
             // 
             // ddbSettings
@@ -88,15 +88,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(59, 458);
+            this.ClientSize = new System.Drawing.Size(104, 458);
             this.Controls.Add(this.toolStrip);
             this.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FMain";
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "P-140";
             this.Load += new System.EventHandler(this.FMain_Load);
             this.toolStrip.ResumeLayout(false);

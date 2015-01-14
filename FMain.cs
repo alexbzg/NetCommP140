@@ -16,6 +16,8 @@ namespace NetCommP140
     {
         private List<P140Connection> connections;
         private List<ToolStripMenuItem> connectionsMIs = new List<ToolStripMenuItem>();
+        private int activeButton = -1;
+        private List<ToolStripButton> buttons = new List<ToolStripButton>();
 
         public FMain()
         {
@@ -23,7 +25,20 @@ namespace NetCommP140
             if (!readConfig())
                 connections = new List<P140Connection>();
             updateConnectionsMIs();
+            for (int co = 0; co < P140Connection.buttonLabels.Count(); co++)
+            {
+                ToolStripButton b = new ToolStripButton();
+                int no = co;
+                b.Text = P140Connection.buttonLabels[co];
+                b.Click += new EventHandler( delegate( object obj, EventArgs e ) {
+                    foreach (P140Connection c in connections)
+                        c.buttonPressed(no);
+                });
+                buttons.Add(b);
+                toolStrip.Items.Add(b);
+            }
         }
+
 
         private void updateConnectionsMIs()
         {
