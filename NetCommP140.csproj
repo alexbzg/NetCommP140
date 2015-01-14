@@ -46,11 +46,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FConnectionParams.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FConnectionParams.designer.cs">
+      <DependentUpon>FConnectionParams.cs</DependentUpon>
+    </Compile>
     <Compile Include="FConnectionsList.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FConnectionsList.Designer.cs">
       <DependentUpon>FConnectionsList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FModuleSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FModuleSettings.designer.cs">
+      <DependentUpon>FModuleSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Jerome.cs" />
     <Compile Include="FMain.cs">
@@ -62,11 +74,17 @@
     <Compile Include="P140Connection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FConnectionParams.resx">
+      <DependentUpon>FConnectionParams.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FConnectionsList.resx">
       <DependentUpon>FConnectionsList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FMain.resx">
       <DependentUpon>FMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FModuleSettings.resx">
+      <DependentUpon>FModuleSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

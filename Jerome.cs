@@ -199,25 +199,29 @@ namespace Jerome
                 StateObject state = (StateObject)ar.AsyncState;
 
                 // Read data from the remote device.
-                int bytesRead = socket.EndReceive(ar);
-
-                if (bytesRead > 0)
+                if (socket != null && socket.Connected)
                 {
-                    // There might be more data, so store the data received so far.
-                    state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
 
-                    System.Diagnostics.Debug.WriteLine("received: " + state.sb.ToString());
+                    int bytesRead = socket.EndReceive(ar);
 
-                    string reply = state.sb.ToString();
+                    if (bytesRead > 0)
+                    {
+                        // There might be more data, so store the data received so far.
+                        state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
 
-                    if ( reply.Contains( '\n' ) )
-                        processReply( reply );
-                    else
-                        socket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-                            new AsyncCallback(receiveCallback), state);
+                        System.Diagnostics.Debug.WriteLine("received: " + state.sb.ToString());
+
+                        string reply = state.sb.ToString();
+
+                        if (reply.Contains('\n'))
+                            processReply(reply);
+                        else
+                            socket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
+                                new AsyncCallback(receiveCallback), state);
+                    }
+                    receiveDone.Set();
+                    receive();
                 }
-                receiveDone.Set();
-                receive();
             }
             catch (Exception e)
             {
@@ -274,6 +278,19 @@ namespace Jerome
             // Begin sending the data to the remote device.
             socket.BeginSend(byteData, 0, byteData.Length, 0,
                 new AsyncCallback(sendCallback), null);
+        }
+
+        public string readlines()
+        {
+            string result = "";
+            ManualResetEvent reDone = new ManualResetEvent( false );
+            newCmd("RID,ALL", delegate(string r)
+            {
+                result = r.Substring(9);
+                reDone.Set();
+            });
+            reDone.WaitOne();
+            return result;
         }
 
         private void sendCallback(IAsyncResult ar)

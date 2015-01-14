@@ -23,3 +23,6 @@ C:\works\NetCommP140\obj\x86\Debug\NetCommP140.Properties.Resources.resources
 C:\works\NetCommP140\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\works\NetCommP140\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\works\NetCommP140\obj\x86\Debug\NetCommP140.FMain.resources
+C:\works\NetCommP140\obj\x86\Debug\NetCommP140.FConnectionsList.resources
+C:\works\NetCommP140\obj\x86\Debug\Jerome.FModuleSettings.resources
+C:\works\NetCommP140\obj\x86\Debug\NetCommP140.FConnectionParams.resources

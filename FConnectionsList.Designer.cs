@@ -1,4 +1,4 @@
-﻿namespace EncRotator
+﻿namespace NetCommP140
 {
     partial class FConnectionsList
     {
@@ -33,6 +33,7 @@
             this.bEdit = new System.Windows.Forms.Button();
             this.bDelete = new System.Windows.Forms.Button();
             this.bOK = new System.Windows.Forms.Button();
+            this.bNew = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lbConnections
@@ -47,6 +48,7 @@
             // 
             // bEdit
             // 
+            this.bEdit.Enabled = false;
             this.bEdit.Location = new System.Drawing.Point(12, 452);
             this.bEdit.Name = "bEdit";
             this.bEdit.Size = new System.Drawing.Size(108, 31);
@@ -57,6 +59,7 @@
             // 
             // bDelete
             // 
+            this.bDelete.Enabled = false;
             this.bDelete.Location = new System.Drawing.Point(126, 452);
             this.bDelete.Name = "bDelete";
             this.bDelete.Size = new System.Drawing.Size(108, 31);
@@ -75,11 +78,22 @@
             this.bOK.UseVisualStyleBackColor = true;
             this.bOK.Click += new System.EventHandler(this.bOK_Click);
             // 
+            // bNew
+            // 
+            this.bNew.Location = new System.Drawing.Point(240, 452);
+            this.bNew.Name = "bNew";
+            this.bNew.Size = new System.Drawing.Size(105, 31);
+            this.bNew.TabIndex = 4;
+            this.bNew.Text = "Новое";
+            this.bNew.UseVisualStyleBackColor = true;
+            this.bNew.Click += new System.EventHandler(this.bNew_Click);
+            // 
             // FConnectionsList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(438, 505);
+            this.Controls.Add(this.bNew);
             this.Controls.Add(this.bOK);
             this.Controls.Add(this.bDelete);
             this.Controls.Add(this.bEdit);
@@ -99,5 +113,6 @@
         private System.Windows.Forms.Button bEdit;
         private System.Windows.Forms.Button bDelete;
         private System.Windows.Forms.Button bOK;
+        private System.Windows.Forms.Button bNew;
     }
 }

@@ -7,31 +7,37 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EncRotator
+namespace NetCommP140
 {
     public partial class FConnectionsList : Form
     {
-        FormState state;
-        public FConnectionsList(FormState fs)
+        List<P140Connection> connections;
+        public FConnectionsList(List<P140Connection> cs)
         {
             InitializeComponent();
-            state = fs;
+            connections = cs;
             fillList();
-            lbConnections.SelectedIndex = 0;
         }
 
         private void fillList()
         {
             lbConnections.Items.Clear();
-            foreach (ConnectionSettings cs in state.connections)
+            foreach (P140Connection cs in connections)
                 lbConnections.Items.Add(cs.name);
+            if (connections.Count > 0)
+            {
+                lbConnections.SelectedIndex = 0;
+                bEdit.Enabled = true;
+                bDelete.Enabled = true;
+            }
 
         }
 
         private void bEdit_Click(object sender, EventArgs e)
         {
-            if (((fMain)this.Owner).editConnection(state.connections[lbConnections.SelectedIndex]))
+            if (connections[lbConnections.SelectedIndex].edit())
             {
+                ((FMain)this.Owner).writeConfig();
                 int sel = lbConnections.SelectedIndex;
                 fillList();
                 lbConnections.SelectedIndex = sel;
@@ -44,15 +50,27 @@ namespace EncRotator
             if (MessageBox.Show("Вы действительно хотите удалить соединение " + lbConnections.Items[lbConnections.SelectedIndex] + "?",
                 "Удаление соединения", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                state.connections.RemoveAt(lbConnections.SelectedIndex);
+                connections.RemoveAt(lbConnections.SelectedIndex);
                 lbConnections.Items.RemoveAt(lbConnections.SelectedIndex);
-                ((fMain)this.Owner).writeConfig();
+                ((FMain)this.Owner).writeConfig();
             }
         }
 
         private void bOK_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void bNew_Click(object sender, EventArgs e)
+        {
+            P140Connection nc = new P140Connection();
+            if (nc.edit())
+            {
+                connections.Add(nc);
+                ((FMain)this.Owner).writeConfig();
+                fillList();
+                lbConnections.SelectedIndex = connections.Count - 1;
+            }
         }
 
 

@@ -8,12 +8,12 @@ using System.Text;
 using System.Windows.Forms;
 using System.Net.Sockets;
 
-namespace EncRotator
+namespace Jerome
 {
-    public partial class fModuleSettings : Form
+    public partial class FModuleSettings : Form
     {
         TcpClient socket;
-        public fModuleSettings()
+        public FModuleSettings()
         {
             InitializeComponent();
         }

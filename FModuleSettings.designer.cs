@@ -1,6 +1,6 @@
-﻿namespace EncRotator
+﻿namespace Jerome
 {
-    partial class fModuleSettings
+    partial class FModuleSettings
     {
         /// <summary>
         /// Требуется переменная конструктора.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fModuleSettings));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FModuleSettings));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.tbHost = new System.Windows.Forms.TextBox();
