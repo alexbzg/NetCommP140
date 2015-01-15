@@ -47,7 +47,7 @@
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStrip.Size = new System.Drawing.Size(95, 458);
+            this.toolStrip.Size = new System.Drawing.Size(95, 288);
             this.toolStrip.TabIndex = 0;
             // 
             // ddbSettings
@@ -62,7 +62,7 @@
             this.ddbSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbSettings.Name = "ddbSettings";
             this.ddbSettings.Size = new System.Drawing.Size(42, 20);
-            this.ddbSettings.Text = "toolStripDropDownButton1";
+            this.ddbSettings.ToolTipText = "Настройки";
             this.ddbSettings.DropDownOpening += new System.EventHandler(this.ddbSettings_DropDownOpening);
             // 
             // tssConnectionsSeparator
@@ -88,7 +88,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(104, 458);
+            this.ClientSize = new System.Drawing.Size(104, 288);
             this.Controls.Add(this.toolStrip);
             this.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Margin = new System.Windows.Forms.Padding(4);

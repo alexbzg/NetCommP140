@@ -21,6 +21,11 @@ namespace Jerome
         public Func<string> reCb;
     }
 
+    public class DisconnectEventArgs : EventArgs
+    {
+        public bool requested;
+    }
+
     public class JeromeController
     {
         class CmdEntry
@@ -54,6 +59,8 @@ namespace Jerome
         private Object cmdQueeLock = new Object();
         private List<CmdEntry> cmdQuee = new List<CmdEntry>();
         private Timer replyTimer;
+
+        public event EventHandler<DisconnectEventArgs> disconnected;
 
         public bool connected
         {
@@ -146,8 +153,22 @@ namespace Jerome
 
         public void disconnect()
         {
+            _disconnect(true);
+        }
+
+        private void _disconnect(bool requested)
+        {
+            System.Diagnostics.Debug.WriteLine("disconnect");
             if (socket != null && socket.Connected)
                 socket.Close();
+            currentCmd = null;
+            cmdQuee.Clear();
+            if (disconnected != null)
+            {
+                DisconnectEventArgs e = new DisconnectEventArgs();
+                e.requested = requested;
+                disconnected(this, e);
+            }
         }
 
         private void connectCallback(IAsyncResult ar)
@@ -218,9 +239,11 @@ namespace Jerome
                         else
                             socket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                                 new AsyncCallback(receiveCallback), state);
+                        receiveDone.Set();
+                        receive();
+                    } else {
+                        _disconnect(false);
                     }
-                    receiveDone.Set();
-                    receive();
                 }
             }
             catch (Exception e)
@@ -267,17 +290,21 @@ namespace Jerome
         private void replyTimeout()
         {
             System.Diagnostics.Debug.WriteLine( "Reply timeout" );
+            _disconnect(false);
         }
 
         private void send(String data)
         {
-            System.Diagnostics.Debug.WriteLine("sending: " + data);
-            // Convert the string data to byte data using ASCII encoding.
-            byte[] byteData = Encoding.ASCII.GetBytes(data);
+            if (socket != null && socket.Connected)
+            {
+                System.Diagnostics.Debug.WriteLine("sending: " + data);
+                // Convert the string data to byte data using ASCII encoding.
+                byte[] byteData = Encoding.ASCII.GetBytes(data);
 
-            // Begin sending the data to the remote device.
-            socket.BeginSend(byteData, 0, byteData.Length, 0,
-                new AsyncCallback(sendCallback), null);
+                // Begin sending the data to the remote device.
+                socket.BeginSend(byteData, 0, byteData.Length, 0,
+                    new AsyncCallback(sendCallback), null);
+            }
         }
 
         public string readlines()

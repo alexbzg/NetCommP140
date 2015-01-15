@@ -23,6 +23,8 @@ namespace NetCommP140
         private bool _active;
         private bool[] _buttons = { false, false, false, false, false, false, false, false, false, false };
 
+        public event EventHandler<DisconnectEventArgs> disconnected;
+
         public bool button(int no)
         {
             return _buttons[no];
@@ -53,7 +55,7 @@ namespace NetCommP140
                 controller.switchLine(relay27Line, 1);
                 Thread.Sleep(500);
                 controller.switchLine(buttonLines[no], 1);
-                Thread.Sleep(30000);
+                Thread.Sleep(15000);
                 controller.switchLine(buttonLines[no], 0);
                 controller.switchLine(relay12Line, 0);
                 controller.switchLine(relay27Line, 0);
@@ -75,10 +77,17 @@ namespace NetCommP140
                 controller.switchLine(relay12Line, 0);
                 controller.setLineMode(relay27Line, 0);
                 controller.switchLine(relay12Line, 0);
+                controller.disconnected += onDisconnect;
                 return true;
             }
             else
                 return false;
+        }
+
+        private void onDisconnect(object obj, DisconnectEventArgs e)
+        {
+            if (disconnected != null)
+                disconnected(this, e);
         }
 
         public void disconnect()
