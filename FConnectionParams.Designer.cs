@@ -50,7 +50,7 @@
             this.bOK.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.bOK.Name = "bOK";
             this.bOK.Size = new System.Drawing.Size(112, 37);
-            this.bOK.TabIndex = 0;
+            this.bOK.TabIndex = 4;
             this.bOK.Text = "OK";
             this.bOK.UseVisualStyleBackColor = true;
             // 
@@ -63,7 +63,7 @@
             this.bCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(112, 37);
-            this.bCancel.TabIndex = 1;
+            this.bCancel.TabIndex = 5;
             this.bCancel.Text = "Отмена";
             this.bCancel.UseVisualStyleBackColor = true;
             // 
@@ -105,7 +105,7 @@
             this.tbPort.Location = new System.Drawing.Point(92, 113);
             this.tbPort.Name = "tbPort";
             this.tbPort.Size = new System.Drawing.Size(266, 26);
-            this.tbPort.TabIndex = 5;
+            this.tbPort.TabIndex = 3;
             this.tbPort.Validated += new System.EventHandler(this.tbPort_Validated);
             // 
             // tbPassword
@@ -113,7 +113,7 @@
             this.tbPassword.Location = new System.Drawing.Point(92, 76);
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.Size = new System.Drawing.Size(266, 26);
-            this.tbPassword.TabIndex = 6;
+            this.tbPassword.TabIndex = 2;
             this.tbPassword.Validated += new System.EventHandler(this.tbPassword_Validated);
             // 
             // tbHost
@@ -121,7 +121,7 @@
             this.tbHost.Location = new System.Drawing.Point(92, 39);
             this.tbHost.Name = "tbHost";
             this.tbHost.Size = new System.Drawing.Size(266, 26);
-            this.tbHost.TabIndex = 7;
+            this.tbHost.TabIndex = 1;
             this.tbHost.Validated += new System.EventHandler(this.tbHost_Validated);
             // 
             // label4
@@ -138,7 +138,7 @@
             this.tbName.Location = new System.Drawing.Point(93, 7);
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(265, 26);
-            this.tbName.TabIndex = 9;
+            this.tbName.TabIndex = 0;
             this.tbName.Validated += new System.EventHandler(this.tbName_Validated);
             // 
             // FConnectionParams

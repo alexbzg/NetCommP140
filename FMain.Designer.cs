@@ -40,19 +40,23 @@
             // toolStrip
             // 
             this.toolStrip.AutoSize = false;
+            this.toolStrip.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.toolStrip.Dock = System.Windows.Forms.DockStyle.Left;
             this.toolStrip.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.toolStrip.GripMargin = new System.Windows.Forms.Padding(0);
+            this.toolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ddbSettings});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStrip.Size = new System.Drawing.Size(95, 288);
+            this.toolStrip.Padding = new System.Windows.Forms.Padding(0);
+            this.toolStrip.Size = new System.Drawing.Size(105, 288);
             this.toolStrip.TabIndex = 0;
             // 
             // ddbSettings
             // 
             this.ddbSettings.AutoSize = false;
+            this.ddbSettings.BackColor = System.Drawing.SystemColors.Control;
             this.ddbSettings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ddbSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tssConnectionsSeparator,
@@ -88,6 +92,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(104, 288);
             this.Controls.Add(this.toolStrip);
             this.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));

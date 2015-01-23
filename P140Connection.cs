@@ -10,7 +10,6 @@ namespace NetCommP140
 {
     public class P140Connection
     {
-        static public string[] buttonLabels = { "160CW", "160SSB", "80CW", "80SSB", "40CW", "40SSB", "20CW", "20SSB", "15", "10" };
         private static int[] buttonLines = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
         private static int relay27Line = 11;
         private static int relay12Line = 22;

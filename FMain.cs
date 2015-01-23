@@ -10,6 +10,7 @@ using Jerome;
 using System.IO;
 using System.Xml.Serialization;
 using System.Threading.Tasks;
+using InputBox;
 
 namespace NetCommP140
 {
@@ -19,6 +20,7 @@ namespace NetCommP140
         private List<ToolStripMenuItem> connectionsMIs = new List<ToolStripMenuItem>();
         private int activeButton = -1;
         private List<ToolStripButton> buttons = new List<ToolStripButton>();
+        private string[] buttonLabels = { "160CW", "160SSB", "80CW", "80SSB", "40CW", "40SSB", "20CW", "20SSB", "15", "10" };
 
         public FMain()
         {
@@ -28,21 +30,37 @@ namespace NetCommP140
             else
                 connections = new List<P140Connection>();
             updateConnectionsMIs();
-            for (int co = 0; co < P140Connection.buttonLabels.Count(); co++)
+            for (int co = 0; co < buttonLabels.Count(); co++)
             {
                 ToolStripButton b = new ToolStripButton();
                 int no = co;
-                b.Text = P140Connection.buttonLabels[co];
+                b.Text = buttonLabels[co];
+                b.BackColor = SystemColors.Control;
                 b.Click += new EventHandler( delegate( object obj, EventArgs e ) {
                     Cursor tmpCursor = Cursor.Current;
                     Cursor.Current = Cursors.WaitCursor;
-                    if ( activeButton > -1 )
-                        buttons[ activeButton ].ForeColor = toolStrip.ForeColor;
+                    if (activeButton > -1)
+                        buttons[activeButton].ForeColor = toolStrip.ForeColor;
                     b.ForeColor = Color.Red;
                     activeButton = buttons.IndexOf(b);
                     toolStrip.Refresh();
                     Parallel.ForEach(connections, c => c.buttonPressed(no));
                     Cursor.Current = tmpCursor;
+                });
+                b.MouseDown += new MouseEventHandler(delegate(object obj, MouseEventArgs e)
+                {
+                    if (e.Button == MouseButtons.Right)
+                    {
+                        FInputBox ib = new FInputBox("Переименование кнопки", b.Text);
+                        ib.StartPosition = FormStartPosition.CenterParent;
+                        ib.ShowDialog(this);
+                        if (ib.DialogResult == DialogResult.OK)
+                        {
+                            buttonLabels[no] = ib.value;
+                            b.Text = ib.value;
+                            writeConfig();
+                        }
+                    }
                 });
                 buttons.Add(b);
                 toolStrip.Items.Add(b);
@@ -90,8 +108,12 @@ namespace NetCommP140
         {
             using (StreamWriter sw = new StreamWriter(Application.StartupPath + "\\config.xml"))
             {
-                XmlSerializer ser = new XmlSerializer(typeof(List<P140Connection>));
-                ser.Serialize(sw, connections);
+                AppState s = new AppState();
+                s.connections = connections.ToArray();
+                s.buttonLabels = buttonLabels;
+
+                XmlSerializer ser = new XmlSerializer(typeof(AppState));
+                ser.Serialize(sw, s);
             }
 
         }
@@ -101,12 +123,18 @@ namespace NetCommP140
             bool result = false;
             if (File.Exists(Application.StartupPath + "\\config.xml"))
             {
-                XmlSerializer ser = new XmlSerializer(typeof(List<P140Connection>));
+                XmlSerializer ser = new XmlSerializer(typeof(AppState));
                 using (FileStream fs = File.OpenRead(Application.StartupPath + "\\config.xml"))
                 {
                     try
                     {
-                        connections = (List<P140Connection>)ser.Deserialize(fs);
+                        AppState s = (AppState)ser.Deserialize(fs);
+                        if (s.connections != null)
+                            connections = s.connections.ToList();
+                        else
+                            connections = new List<P140Connection>();
+                        if (s.buttonLabels != null)
+                            buttonLabels = s.buttonLabels;
                         result = true;
                     }
                     catch (Exception ex)
@@ -138,5 +166,11 @@ namespace NetCommP140
                 mi.Checked = c.connected;
             }
         }
+    }
+
+    public class AppState
+    {
+        public P140Connection[] connections;
+        public string[] buttonLabels;
     }
 }

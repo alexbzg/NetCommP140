@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfP140Connection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <P140Connection>
-    <name>1</name>
-    <host>192.168.1.106</host>
-    <port>2424</port>
-    <password>Jerome</password>
-  </P140Connection>
-  <P140Connection>
-    <name>2</name>
-    <host>192.168.0.101</host>
-    <port>2424</port>
-    <password>Jerome</password>
-  </P140Connection>
-</ArrayOfP140Connection>
+<AppState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <connections>
+    <P140Connection>
+      <name>1</name>
+      <host>192.168.1.6</host>
+      <port>2424</port>
+      <password>Jerome</password>
+    </P140Connection>
+  </connections>
+  <buttonLabels>
+    <string>160CW</string>
+    <string>160SSB</string>
+    <string>80CW</string>
+    <string>80SSB</string>
+    <string>40CW</string>
+    <string>40SSB</string>
+    <string>20CW</string>
+    <string>20SSB</string>
+    <string>15</string>
+    <string>10</string>
+  </buttonLabels>
+</AppState>
