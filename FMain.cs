@@ -70,7 +70,7 @@ namespace NetCommP140
         private void connectionBroken(object obj, DisconnectEventArgs e)
         {
             if (!e.requested)
-                MessageBox.Show(((P140Connection)obj).name + ": связь потеряна");
+                MessageBox.Show(((P140Connection)obj).name + ": связь потеряна", "NetCommP140");
         }
 
 

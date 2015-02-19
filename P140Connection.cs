@@ -54,7 +54,7 @@ namespace NetCommP140
                 controller.switchLine(relay27Line, 1);
                 Thread.Sleep(500);
                 controller.switchLine(buttonLines[no], 1);
-                Thread.Sleep(15000);
+                Thread.Sleep(10000);
                 controller.switchLine(buttonLines[no], 0);
                 controller.switchLine(relay12Line, 0);
                 controller.switchLine(relay27Line, 0);
