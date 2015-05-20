@@ -26,4 +26,5 @@ C:\works\NetCommP140\obj\x86\Debug\NetCommP140.FMain.resources
 C:\works\NetCommP140\obj\x86\Debug\NetCommP140.FConnectionsList.resources
 C:\works\NetCommP140\obj\x86\Debug\Jerome.FModuleSettings.resources
 C:\works\NetCommP140\obj\x86\Debug\NetCommP140.FConnectionParams.resources
-C:\works\NetCommP140\obj\x86\Debug\InputBox.FInputBox.resources
+C:\works\NetCommP140\obj\x86\Debug\NetCommP140.FESConnection.resources
+C:\works\NetCommP140\obj\x86\Debug\NetCommP140.FButtonProps.resources

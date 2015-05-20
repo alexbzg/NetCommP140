@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AppState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <connections>
-    <P140Connection>
-      <name>1</name>
-      <host>192.168.1.6</host>
-      <port>2424</port>
-      <password>Jerome</password>
-    </P140Connection>
-  </connections>
+  <connections />
   <buttonLabels>
     <string>160CW</string>
     <string>160SSB</string>
@@ -20,4 +13,14 @@
     <string>15</string>
     <string>10</string>
   </buttonLabels>
+  <esMhzValues>
+    <int>10</int>
+    <int>9</int>
+  </esMhzValues>
+  <esButtons>
+    <int>9</int>
+    <int>9</int>
+  </esButtons>
+  <esHost>127.0.0.1</esHost>
+  <esPort>50040</esPort>
 </AppState>

@@ -34,6 +34,7 @@
             this.tssConnectionsSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.miConnectionsList = new System.Windows.Forms.ToolStripMenuItem();
             this.miModuleSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.miExpertSync = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,7 +62,8 @@
             this.ddbSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tssConnectionsSeparator,
             this.miConnectionsList,
-            this.miModuleSettings});
+            this.miModuleSettings,
+            this.miExpertSync});
             this.ddbSettings.Image = ((System.Drawing.Image)(resources.GetObject("ddbSettings.Image")));
             this.ddbSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbSettings.Name = "ddbSettings";
@@ -72,21 +74,29 @@
             // tssConnectionsSeparator
             // 
             this.tssConnectionsSeparator.Name = "tssConnectionsSeparator";
-            this.tssConnectionsSeparator.Size = new System.Drawing.Size(218, 6);
+            this.tssConnectionsSeparator.Size = new System.Drawing.Size(269, 6);
             // 
             // miConnectionsList
             // 
             this.miConnectionsList.Name = "miConnectionsList";
-            this.miConnectionsList.Size = new System.Drawing.Size(221, 22);
+            this.miConnectionsList.Size = new System.Drawing.Size(272, 22);
             this.miConnectionsList.Text = "Подключения";
             this.miConnectionsList.Click += new System.EventHandler(this.miConnectionsList_Click);
             // 
             // miModuleSettings
             // 
             this.miModuleSettings.Name = "miModuleSettings";
-            this.miModuleSettings.Size = new System.Drawing.Size(221, 22);
+            this.miModuleSettings.Size = new System.Drawing.Size(272, 22);
             this.miModuleSettings.Text = "Настройки модуля";
             this.miModuleSettings.Click += new System.EventHandler(this.miModuleSettings_Click);
+            // 
+            // miExpertSync
+            // 
+            this.miExpertSync.CheckOnClick = true;
+            this.miExpertSync.Name = "miExpertSync";
+            this.miExpertSync.Size = new System.Drawing.Size(272, 22);
+            this.miExpertSync.Text = "Соединение с ExpertSync";
+            this.miExpertSync.Click += new System.EventHandler(this.miExpertSync_Click);
             // 
             // FMain
             // 
@@ -115,6 +125,7 @@
         private System.Windows.Forms.ToolStripMenuItem miConnectionsList;
         private System.Windows.Forms.ToolStripSeparator tssConnectionsSeparator;
         private System.Windows.Forms.ToolStripMenuItem miModuleSettings;
+        private System.Windows.Forms.ToolStripMenuItem miExpertSync;
     }
 }
 
